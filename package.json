@@ -27,7 +27,7 @@
     "parcel-plugin-asset-copier": "^1.1.0",
     "prettier": "^2.0.5",
     "sass": "^1.26.10",
-    "typescript": "^3.9.7"
+    "typescript": "4.0.3"
   },
   "husky": {
     "hooks": {
@@ -38,6 +38,6 @@
     "*.{js,ts,css,scss,md}": "prettier --write"
   },
   "dependencies": {
-    "excalibur": "^0.24.3"
+    "excalibur": "0.24.3"
   }
 }
