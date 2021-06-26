@@ -66,6 +66,11 @@ ball.body.collider.type = CollisionType.Passive;
 // "ex.CollisionType.Active - this means participate and let excalibur resolve the positions/velocities of actors after collision"
 // "ex.CollisionType.Fixed - this means participate, but this object is unmovable"
 
+// Add the ball to the current scene
+game.add(ball);
+// end-snippet{create-ball}
+
+// start-snippet{screen-collision}
 // Wire up to the postupdate event
 ball.on("postupdate", () => {
   // If the ball collides with the left side
@@ -86,10 +91,7 @@ ball.on("postupdate", () => {
     ball.vel.y *= -1;
   }
 });
-
-// Add the ball to the current scene
-game.add(ball);
-// end-snippet{create-ball}
+// end-snippet{screen-collision}
 
 // start-snippet{create-bricks}
 // Build Bricks
