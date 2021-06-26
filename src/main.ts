@@ -52,8 +52,11 @@ ball.body.useCircleCollider(10);
 // Set the color
 ball.color = Color.Red;
 
-// Set the velocity in pixels per second
-ball.vel = vec(100, 100);
+// Start the serve after a second
+setTimeout(() => {
+  // Set the velocity in pixels per second
+  ball.vel = vec(100, 100);
+}, 1000);
 
 // Set the collision Type to passive
 // This means "tell me when I collide with an emitted event, but don't let excalibur do anything automatically"
