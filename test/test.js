@@ -51,8 +51,7 @@ return (async () => {
     const page = await browser.newPage();
     await page.goto("http://localhost:8081/");
 
-    // await page.waitForSelector("#excalibur-play", { visible: true });
-    await page.waitForTimeout(1000); // give it a second
+    await page.waitForTimeout(500); // give it ahalf second
     await page.screenshot({ path: "loaded.png" });
 
     await browser.close();
