@@ -3,11 +3,11 @@
   "version": "1.0.0",
   "private": true,
   "description": "",
-  "main": "dist/index.js",
   "scripts": {
-    "start": "parcel index.html --no-autoinstall",
+    "start": "parcel serve index.html",
+    "build": "parcel build ./index.html --dist-dir ./dist --public-url ./",
     "typecheck": "tsc -p . --noEmit",
-    "build": "parcel build index.html"
+    "test": "npm run build && node ./test/test.js"
   },
   "repository": {
     "type": "git",
@@ -23,11 +23,13 @@
   "devDependencies": {
     "husky": "^4.2.5",
     "lint-staged": "^10.2.11",
-    "parcel-bundler": "^1.12.4",
-    "parcel-plugin-asset-copier": "^1.1.0",
-    "prettier": "^2.0.5",
-    "sass": "^1.26.10",
-    "typescript": "4.0.3"
+    "parcel": "2.0.0-beta.3.1",
+    "prettier": "2.3.1",
+    "typescript": "4.3.4",
+    "node-static": "0.7.11",
+    "pixelmatch": "5.2.1",
+    "pngjs": "6.0.0",
+    "puppeteer": "5.5.0"
   },
   "husky": {
     "hooks": {
@@ -38,6 +40,6 @@
     "*.{js,ts,css,scss,md}": "prettier --write"
   },
   "dependencies": {
-    "excalibur": "0.24.3"
+    "excalibur": "0.24.5"
   }
 }

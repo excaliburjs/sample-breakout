@@ -1,12 +1,17 @@
-import { Actor, CollisionType, Color, Engine } from "excalibur";
+import { Actor, CollisionType, Color, Engine, vec } from "excalibur";
 // game.js
 
+// start-snippet{create-engine}
 // Create an instance of the engine.
+// I'm specifying that the game be 800 pixels wide by 600 pixels tall.
+// If no dimensions are specified the game will fit to the screen.
 const game = new Engine({
   width: 800,
   height: 600,
 });
+// end-snippet{create-engine}
 
+// start-snippet{create-paddle}
 // Create an actor with x position of 150px,
 // y position of 40px from the bottom of the screen,
 // width of 200px, height and a height of 20px
@@ -21,26 +26,34 @@ const paddle = new Actor({
 // color constants
 paddle.color = Color.Chartreuse;
 
-// Make sure the paddle can partipate in collisions, by default excalibur actors do not collide
+// Make sure the paddle can partipate in collisions, by default excalibur actors do not collide with each other
+// CollisionType.Fixed is like an object with infinite mass, and cannot be moved, but does participate in collision.
 paddle.body.collider.type = CollisionType.Fixed;
 
 // `game.add` is the same as calling
 // `game.currentScene.add`
 game.add(paddle);
+// end-snippet{create-paddle}
 
+// start-snippet{mouse-move}
 // Add a mouse move listener
-game.input.pointers.primary.on("move", function (evt) {
+game.input.pointers.primary.on("move", (evt) => {
   paddle.pos.x = evt.worldPos.x;
 });
+// end-snippet{mouse-move}
 
-// Create a ball
-const ball = new Actor(100, 300, 20, 20);
+// start-snippet{create-ball}
+// Create a ball at pos (100, 300) to start
+const ball = new Actor({ x: 100, y: 300 });
+
+// Use a circle collider with radius 10
+ball.body.useCircleCollider(10);
 
 // Set the color
 ball.color = Color.Red;
 
 // Set the velocity in pixels per second
-ball.vel.setTo(100, 100);
+ball.vel = vec(100, 100);
 
 // Set the collision Type to passive
 // This means "tell me when I collide with an emitted event, but don't let excalibur do anything automatically"
@@ -71,22 +84,11 @@ ball.on("postupdate", () => {
   }
 });
 
-// Draw is passed a rendering context and a delta in milliseconds since the last frame
-ball.draw = (ctx, delta) => {
-  // Optionally call original 'base' method
-  // ex.Actor.prototype.draw.call(this, ctx, delta)
-
-  // Custom draw code
-  ctx.fillStyle = ball.color.toString();
-  ctx.beginPath();
-  ctx.arc(ball.pos.x, ball.pos.y, 10, 0, Math.PI * 2);
-  ctx.closePath();
-  ctx.fill();
-};
-
 // Add the ball to the current scene
 game.add(ball);
+// end-snippet{create-ball}
 
+// start-snippet{create-bricks}
 // Build Bricks
 
 // Padding between bricks
@@ -123,7 +125,9 @@ bricks.forEach(function (brick) {
   // Add the brick to the current scene to be drawn
   game.add(brick);
 });
+// end-snippet{create-bricks}
 
+// start-snippet{ball-brick-collision}
 // On collision remove the brick, bounce the ball
 ball.on("precollision", function (ev) {
   if (bricks.indexOf(ev.other) > -1) {
@@ -145,11 +149,16 @@ ball.on("precollision", function (ev) {
     ball.vel.y *= -1;
   }
 });
+// end-snippet{ball-brick-collision}
 
-// Loss condigion
+// start-snippet{lose-condition}
+// Loss condition
 ball.on("exitviewport", () => {
   alert("You lose!");
 });
+// end-snippet{lose-condition}
 
+// start-snippet{start-game}
 // Start the engine to begin the game.
 game.start();
+// end-snippet{start-game}
