@@ -20,15 +20,14 @@ const paddle = new Actor({
   y: game.drawHeight - 40,
   width: 200,
   height: 20,
+  // Let's give it some color with one of the predefined
+  // color constants
+  color: Color.Chartreuse,
 });
-
-// Let's give it some color with one of the predefined
-// color constants
-paddle.color = Color.Chartreuse;
 
 // Make sure the paddle can partipate in collisions, by default excalibur actors do not collide with each other
 // CollisionType.Fixed is like an object with infinite mass, and cannot be moved, but does participate in collision.
-paddle.body.collider.type = CollisionType.Fixed;
+paddle.body.collisionType = CollisionType.Fixed;
 
 // `game.add` is the same as calling
 // `game.currentScene.add`
@@ -44,13 +43,14 @@ game.input.pointers.primary.on("move", (evt) => {
 
 // start-snippet{create-ball}
 // Create a ball at pos (100, 300) to start
-const ball = new Actor({ x: 100, y: 300 });
-
-// Use a circle collider with radius 10
-ball.body.useCircleCollider(10);
-
-// Set the color
-ball.color = Color.Red;
+const ball = new Actor({
+  x: 100,
+  y: 300,
+  // Use a circle collider with radius 10
+  radius: 10,
+  // Set the color
+  color: Color.Red,
+});
 
 // Start the serve after a second
 setTimeout(() => {
@@ -60,7 +60,7 @@ setTimeout(() => {
 
 // Set the collision Type to passive
 // This means "tell me when I collide with an emitted event, but don't let excalibur do anything automatically"
-ball.body.collider.type = CollisionType.Passive;
+ball.body.collisionType = CollisionType.Passive;
 // Other possible collision types:
 // "ex.CollisionType.PreventCollision - this means do not participate in any collision notification at all"
 // "ex.CollisionType.Active - this means participate and let excalibur resolve the positions/velocities of actors after collision"
@@ -125,7 +125,7 @@ for (let j = 0; j < rows; j++) {
 
 bricks.forEach(function (brick) {
   // Make sure that bricks can participate in collisions
-  brick.body.collider.type = CollisionType.Active;
+  brick.body.collisionType = CollisionType.Active;
 
   // Add the brick to the current scene to be drawn
   game.add(brick);
