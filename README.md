@@ -1,4 +1,8 @@
-# Excalibur TypeScript & Parcel template
+# Excalibur Breakout
+
+Play example [here](https://excaliburjs.com/sample-breakout)
+
+![example of breakout running](breakout.gif)
 
 ## Getting Started
 
