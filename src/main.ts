@@ -51,11 +51,11 @@ const ball = new Actor({
   // Set the color
   color: Color.Red,
 });
-
 // Start the serve after a second
+const ballSpeed = vec(100, 100);
 setTimeout(() => {
   // Set the velocity in pixels per second
-  ball.vel = vec(100, 100);
+  ball.vel = ballSpeed;
 }, 1000);
 
 // Set the collision Type to passive
@@ -76,19 +76,19 @@ ball.on("postupdate", () => {
   // If the ball collides with the left side
   // of the screen reverse the x velocity
   if (ball.pos.x < ball.width / 2) {
-    ball.vel.x *= -1;
+    ball.vel.x = ballSpeed.x;
   }
 
   // If the ball collides with the right side
   // of the screen reverse the x velocity
   if (ball.pos.x + ball.width / 2 > game.drawWidth) {
-    ball.vel.x *= -1;
+    ball.vel.x = ballSpeed.x * -1;
   }
 
   // If the ball collides with the top
   // of the screen reverse the y velocity
   if (ball.pos.y < ball.height / 2) {
-    ball.vel.y *= -1;
+    ball.vel.y = ballSpeed.y;
   }
 });
 // end-snippet{screen-collision}
@@ -134,7 +134,8 @@ bricks.forEach(function (brick) {
 
 // start-snippet{ball-brick-collision}
 // On collision remove the brick, bounce the ball
-ball.on("precollision", function (ev) {
+let colliding = false;
+ball.on("collisionstart", function (ev) {
   if (bricks.indexOf(ev.other) > -1) {
     // kill removes an actor from the current scene
     // therefore it will no longer be drawn or updated
@@ -143,17 +144,28 @@ ball.on("precollision", function (ev) {
 
   // reverse course after any collision
   // intersections are the direction body A has to move to not be clipping body B
-  // `ev.intersection` is a vector `normalize()` will make the length of it 1
+  // `ev.content.mtv` "minimum translation vector" is a vector `normalize()` will make the length of it 1
   // `negate()` flips the direction of the vector
-  var intersection = ev.intersection.normalize();
+  var intersection = ev.contact.mtv.normalize();
 
-  // The largest component of intersection is our axis to flip
-  if (Math.abs(intersection.x) > Math.abs(intersection.y)) {
-    ball.vel.x *= -1;
-  } else {
-    ball.vel.y *= -1;
+  // Only reverse direction when the collision starts
+  // Object could be colliding for multiple frames
+  if (!colliding) {
+    colliding = true;
+    // The largest component of intersection is our axis to flip
+    if (Math.abs(intersection.x) > Math.abs(intersection.y)) {
+      ball.vel.x *= -1;
+    } else {
+      ball.vel.y *= -1;
+    }
   }
 });
+
+ball.on("collisionend", () => {
+  // ball has separated from whatever object it was colliding with
+  colliding = false;
+});
+
 // end-snippet{ball-brick-collision}
 
 // start-snippet{lose-condition}
