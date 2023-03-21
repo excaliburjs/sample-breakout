@@ -24,7 +24,7 @@
     "husky": "4.3.8",
     "lint-staged": "10.5.4",
     "parcel": "2.8.3",
-    "prettier": "2.8.5",
+    "prettier": "2.8.6",
     "typescript": "4.9.5",
     "@excaliburjs/testing": "0.25.1"
   },
