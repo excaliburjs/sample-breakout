@@ -1,4 +1,11 @@
-import { Actor, CollisionType, Color, Engine, vec } from "excalibur";
+import {
+  Actor,
+  CollisionStartEvent,
+  CollisionType,
+  Color,
+  Engine,
+  vec,
+} from "excalibur";
 // game.js
 
 // start-snippet{create-engine}
@@ -135,7 +142,7 @@ bricks.forEach(function (brick) {
 // start-snippet{ball-brick-collision}
 // On collision remove the brick, bounce the ball
 let colliding = false;
-ball.on("collisionstart", function (ev) {
+ball.on("collisionstart", function (ev: CollisionStartEvent) {
   if (bricks.indexOf(ev.other) > -1) {
     // kill removes an actor from the current scene
     // therefore it will no longer be drawn or updated
