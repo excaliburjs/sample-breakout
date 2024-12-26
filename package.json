@@ -37,6 +37,6 @@
     "*.{js,ts,css,scss,md}": "prettier --write"
   },
   "dependencies": {
-    "excalibur": "0.30.1"
+    "excalibur": "0.30.2"
   }
 }
