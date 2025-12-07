@@ -23,7 +23,7 @@
   "devDependencies": {
     "husky": "4.3.8",
     "lint-staged": "10.5.4",
-    "parcel": "2.12.0",
+    "parcel": "2.16.3",
     "prettier": "2.8.8",
     "typescript": "4.9.5",
     "@excaliburjs/testing": "0.25.1"
