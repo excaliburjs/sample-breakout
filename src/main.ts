@@ -143,10 +143,10 @@ bricks.forEach(function (brick) {
 // On collision remove the brick, bounce the ball
 let colliding = false;
 ball.on("collisionstart", function (ev: CollisionStartEvent) {
-  if (bricks.indexOf(ev.other) > -1) {
+  if (bricks.indexOf(ev.other.owner as Actor) > -1) {
     // kill removes an actor from the current scene
     // therefore it will no longer be drawn or updated
-    ev.other.kill();
+    ev.other.owner.kill();
   }
 
   // reverse course after any collision
