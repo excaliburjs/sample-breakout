@@ -4,6 +4,7 @@ import {
   CollisionType,
   Color,
   Engine,
+  Keys,
   vec,
 } from "excalibur";
 // game.js
@@ -36,6 +37,7 @@ const paddle = new Actor({
 // CollisionType.Fixed is like an object with infinite mass, and cannot be moved, but does participate in collision.
 paddle.body.collisionType = CollisionType.Fixed;
 
+
 // `game.add` is the same as calling
 // `game.currentScene.add`
 game.add(paddle);
@@ -51,19 +53,37 @@ game.input.pointers.primary.on("move", (evt) => {
 // start-snippet{create-ball}
 // Create a ball at pos (100, 300) to start
 const ball = new Actor({
-  x: 100,
-  y: 300,
+  name: 'ball',
+  x: 0,
+  y: -100,
   // Use a circle collider with radius 10
   radius: 10,
   // Set the color
   color: Color.Red,
 });
+
+paddle.addChild(ball);
+
+
 // Start the serve after a second
-const ballSpeed = vec(100, 100);
-setTimeout(() => {
-  // Set the velocity in pixels per second
-  ball.vel = ballSpeed;
-}, 1000);
+const ballSpeed = vec(0, -100);
+// setTimeout(() => {
+//   // Set the velocity in pixels per second
+//   ball.vel = ballSpeed;
+// }, 1000);
+
+let ballLaunched = false;
+game.input.keyboard.on('press', (evt) => {
+  if (evt.key === Keys.Space) {
+    ball.vel = ballSpeed;
+    const currentWorldPos = ball.globalPos.clone();
+    ball.unparent();
+    ball.pos = currentWorldPos;
+    game.add(ball);
+    ballLaunched = true;
+  }
+});
+
 
 // Set the collision Type to passive
 // This means "tell me when I collide with an emitted event, but don't let excalibur do anything automatically"
@@ -80,6 +100,8 @@ game.add(ball);
 // start-snippet{screen-collision}
 // Wire up to the postupdate event
 ball.on("postupdate", () => {
+  if (!ballLaunched) return;
+
   // If the ball collides with the left side
   // of the screen reverse the x velocity
   if (ball.pos.x < ball.width / 2) {
@@ -177,9 +199,9 @@ ball.on("collisionend", () => {
 
 // start-snippet{lose-condition}
 // Loss condition
-ball.on("exitviewport", () => {
-  alert("You lose!");
-});
+// ball.on("exitviewport", () => {
+//   alert("You lose!");
+// });
 // end-snippet{lose-condition}
 
 // start-snippet{start-game}
